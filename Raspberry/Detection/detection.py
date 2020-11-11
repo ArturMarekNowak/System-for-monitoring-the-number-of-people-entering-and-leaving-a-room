@@ -2,7 +2,7 @@ from sys import argv
 
 script, mode = argv
 
-cascadePath = r'HaarCascades/haarcascade_frontalface_default.xml'
+cascadePath = r'HaarCascades/HS.xml'
  
 if mode[0] == "c":
     
