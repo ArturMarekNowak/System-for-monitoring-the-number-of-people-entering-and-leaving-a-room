@@ -5,7 +5,7 @@ import sys
 import paho.mqtt.client as mqtt
 
 
-def onConnect(client, userdata, flags, rc):
+def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected succesfully")
     else:
@@ -16,7 +16,7 @@ cascadePath = f'haarCascades/HS.xml'
 
 client = mqtt.Client()
 print("xD")
-client.on_connect = onConnect
+client.on_connect = on_connect
 print("xDD")
 client.connect("broker.emqx.io", 1883, 60)
     
@@ -34,7 +34,8 @@ for i in range(12):
     print(counter)
     counter = 0
     cv2.imwrite('output.jpg', img)
-    f = open('output.jpg', "rb")
+    img = cv2.resize(img, (400, 225))
+    f = open(f'output.jpg', "rb")
     fileContent = f.read()
     byteArr = bytes(fileContent)
     client.publish('raspberry/topic', byteArr, qos = 0, retain = False)
@@ -44,10 +45,8 @@ for i in range(12):
         #cv2.waitKey(0)
         #cv2.destroyAllWindows()
     
-    time.sleep(15.0)
+    time.sleep(10.0)
 
-        
-    if i == 11:
-        i = 0
 
-    client.loop_forever()
+
+client.loop_forever()

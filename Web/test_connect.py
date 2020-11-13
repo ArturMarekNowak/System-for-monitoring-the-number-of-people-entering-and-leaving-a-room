@@ -19,7 +19,7 @@ for i in range(4):
     byteArr = bytes(fileContent)
     client.publish('raspberry/topic', byteArr, qos = 0, retain = False)
     print(f"lena{i} sent to raspberry/topic")
-    time.sleep(60)
+    time.sleep(10)
 
 
 client.loop_forever()
