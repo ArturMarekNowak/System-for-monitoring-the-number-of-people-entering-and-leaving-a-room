@@ -14,12 +14,12 @@ client.connect("broker.emqx.io", 1883, 60)
 
 for i in range(4):
     
-    f = open(f"../Raspberry/docs/lena{i}.jpg", "rb")
+    f = open(f"docs/lena{i}.jpg", "rb")
     fileContent = f.read()
     byteArr = bytes(fileContent)
     client.publish('raspberry/topic', byteArr, qos = 0, retain = False)
     print(f"lena{i} sent to raspberry/topic")
-    time.sleep(30)
+    time.sleep(10)
 
 
 client.loop_forever()
