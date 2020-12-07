@@ -3,7 +3,7 @@ echo "Start of the scripts"
 SECONDS=0
 
 python3 detection/publisher.py & 
-python3 detection/demo.py &
+python3 detection/demo.py demo &
 
 while : 
 do

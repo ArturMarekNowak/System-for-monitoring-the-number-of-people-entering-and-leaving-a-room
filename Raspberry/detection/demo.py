@@ -18,6 +18,12 @@ def updateJsonFile(counter, brightness, movement):
         json.dump(data, jsonFile, indent = 4)
 
 
+def determineBrightness(img):
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    print(hsv[...,2].mean())
+
+    return hsv[...,2].mean()
+    
 
 
 with open("detection/result.json") as jsonFile:
@@ -55,6 +61,7 @@ elif mode[-4:] == "demo":
          
         path = f"docs/img{i}.jpg"
         img = cv2.imread(path)
+        brightness = determineBrightness(img)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         cascade = cv2.CascadeClassifier(cascadePath)
         faces = cascade.detectMultiScale(gray, 1.3, 5)
@@ -63,7 +70,7 @@ elif mode[-4:] == "demo":
             counter += 1
         
         cv2.imwrite("output/output.jpg", img)
-        updateJsonFile(counter, "No", "No")
+        updateJsonFile(counter, brightness, "No")
         
         counter = 0
         time.sleep(30)
