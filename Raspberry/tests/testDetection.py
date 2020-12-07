@@ -51,7 +51,7 @@ else:
         import imutils
         
         path = "docs/" + mode
-        print "loaded video file: %s" % path
+        print("loaded video file: %s" % path)
 
         cap = cv2.VideoCapture(path)
 
@@ -72,7 +72,7 @@ else:
         import imutils
         
         path = "docs/" + mode
-        print "loaded pic file: %s" % path
+        print("loaded pic file: %s" % path)
 
         img = cv2.imread(path)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

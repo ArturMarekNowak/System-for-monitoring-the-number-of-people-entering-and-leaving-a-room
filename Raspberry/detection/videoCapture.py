@@ -31,13 +31,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     if len(faces) > 0:
         for (x, y, w, h) in faces:
             cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 100), 1)
-            #cv2.imwrite('detected.png',image)
-            #os.remove("detected.png")
             
-    #cv2.imshow("Frame", image)	
-    #image = cv2.imresize(480,240)
     cv2.imwrite(f'output/output.jpg', image)
     rawCapture.truncate(0)
     time.sleep(10)
-    #if cv2.waitKey(1) & 0xFF == ord('q'):
-    #    break
