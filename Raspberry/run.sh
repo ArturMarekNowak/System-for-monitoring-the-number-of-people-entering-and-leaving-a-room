@@ -3,7 +3,8 @@ echo "Start of the scripts"
 SECONDS=0
 
 python3 detection/publisher.py & 
-python3 detection/demo.py vid1.mp4 &
+#python3 detection/demo.py haar &
+python3 tests/testDetection.py c &
 
 while : 
 do
@@ -14,8 +15,8 @@ do
 	
 	if [ "$quit" = "q" ]
 	then
-		echo "Stoping"
-		ps axf | grep demo.py | grep -v grep | awk '{print "kill -9 " $1}' | sh
+		echo "Stopping"
+		ps axf | grep testDetection.py | grep -v grep | awk '{print "kill -9 " $1}' | sh
 		ps axf | grep publisher.py | grep -v grep | awk '{print "kill -9 " $1}' | sh
 		duration=$SECONDS
 		break

@@ -1,7 +1,7 @@
 {
     "firstSensor": {
-        "Number of People": 0,
-        "Brightness": 3.5,
-        "Movement": "No"
+        "Number of People": 1.0,
+        "Brightness": 94.2,
+        "Movement": "Yes"
     }
 }

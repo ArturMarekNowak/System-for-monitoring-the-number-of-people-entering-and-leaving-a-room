@@ -5,6 +5,8 @@ import time
 import sys
 from sys import argv
 import json
+from imutils.object_detection import non_max_suppression
+import numpy as np
 
 
 #Input
@@ -36,11 +38,11 @@ counter = 0
 cascadePath = f"haarCascades/HS.xml"
 
 
-#Input video
-if mode[-4:] == ".mp4":
+#Input video to Haar
+if mode[-4:] == "haar":
         
     #Path to videos
-    path = "docs/" + mode
+    path = "docs/vid1.mp4"
     
     #Capture video with cv2
     cap = cv2.VideoCapture(path)
@@ -50,6 +52,7 @@ if mode[-4:] == ".mp4":
         
         #Read and determine brightness 
         success, img = cap.read()
+        #img = cv2.resize(img, (120, 60))
         brightness = round(determineBrightness(img), 1)
         
         #Convert to grey, use cascade, count people, draw rectangles
@@ -61,14 +64,53 @@ if mode[-4:] == ".mp4":
             counter += 1
         
         #Save image and update json file
-        cv2.imwrite("output/output.jpg", img)
+        #cv2.imwrite("output/output.jpg", img)
         updateJsonFile(counter, brightness, "No")
-
+        counter = 0 
         #Show image
-        #cv2.imshow("Video", img)
+        cv2.imshow("Video", img)
         
         #Interrupt 
-        #if cv2.waitKey(1) & 0xFF == ord('q'):
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+#Input video to Hog
+elif mode[-3:] == "hog":
+        
+    #Path to videos
+    path = "docs/vid1.mp4"
+    
+    #Capture video with cv2
+    cap = cv2.VideoCapture(path)
+        
+    hog = cv2.HOGDescriptor()
+    hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+
+    counter = 0
+
+    #Continuous frame capture 
+    while True:
+        
+        #Read and determine brightness 
+        success, image = cap.read()
+        brightness = round(determineBrightness(image), 1)
+        
+        (rects, weights) = hog.detectMultiScale(image, winStride=(4, 4), padding=(8, 8), scale =1.05)
+
+        pick = non_max_suppression(rects, probs=None, overlapThresh=0.65)
+
+        for (xA, yA, xB, yB) in pick:
+            cv2.rectangle(image, (xA, yA), (xB, yB), (0, 255, 0), 2)
+            counter += 1
+
+        cv2.imwrite("output/output.jpg", image)
+        updateJsonFile(counter, brightness, "No")
+        counter = 0
+        #image = cv2.resize(image, (120, 60))
+        #cv2.imshow("Vid", image)
+        #key = cv2.waitKey(2) & 0xFF
+
+        #if key == ord("q"):
         #    break
 
 #Input demo mode
